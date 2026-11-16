@@ -455,6 +455,7 @@ function position(
       popup.style(name, "")
     }
     anchoredStyles.clear()
+    last = ""
     popup.style("inset", "auto")
     popup.style("margin", "0")
     popup.style("left", at.left)
@@ -609,7 +610,6 @@ function position(
         near(computePlacement(previous, size, viewport, placement))
       if (!caughtUp && !behind) {
         unanchor()
-        last = ""
         el.style.transition = transition
         return update()
       }
