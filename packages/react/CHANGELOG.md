@@ -1,5 +1,27 @@
 # @ui-sdk/react
 
+## 0.1.0-beta.7
+
+### Patch Changes
+
+- e154ead: In server-rendered HTML, the control of a Field marked `invalid` now names its first shown error in `aria-describedby`, including a `FieldError` with `match`. Every error shown at once keeps an id of its own.
+- d15635d: `Preferences` puts a global preference's value on `<html>` before the first paint when it mounts in the browser, like after a client navigation mounts `<html>` again.
+- 9b0f80f: A part takes a `render` element from a Server Component that arrives inside two lazy wrappers, as `next dev` sends it on some routes. It threw "Element type is invalid" there, where a production build worked.
+- Updated dependencies [c52e8ad]
+- Updated dependencies [dec3e40]
+- Updated dependencies [54b7c8d]
+- Updated dependencies [938e5e2]
+- Updated dependencies [e154ead]
+- Updated dependencies [3fbd191]
+- Updated dependencies [5a356dc]
+- Updated dependencies [76f3585]
+- Updated dependencies [a14961e]
+- Updated dependencies [25ac95a]
+- Updated dependencies [250c9bb]
+- Updated dependencies [217fc40]
+- Updated dependencies [a36290a]
+  - @ui-sdk/core@0.1.0-beta.7
+
 ## 0.1.0-beta.6
 
 ### Patch Changes
