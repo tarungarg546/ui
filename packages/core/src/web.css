@@ -287,18 +287,26 @@
 
   /* A trigger right after its input sits inside the input's end. Web components wrap each part, and :has() can't nest. */
   :not([data-slot="field"]):has(
-    > [data-slot="combobox-input"] + [data-slot="combobox-trigger"]
+    > :is([data-slot="combobox-input"], [data-slot="combobox-chips"])
+      + [data-slot="combobox-trigger"]
   ),
-  :not([data-slot="field"]):has(> ui-combobox-input + ui-combobox-trigger) {
+  :not([data-slot="field"]):has(
+    > :is(ui-combobox-input, ui-combobox-chips) + ui-combobox-trigger
+  ) {
     display: flex;
 
-    & > :is([data-slot="combobox-input"], ui-combobox-input) {
+    & > :is([data-slot="combobox-input"], ui-combobox-input),
+    & > [data-slot="combobox-chips"] {
       flex: 1;
       min-width: 0;
     }
 
-    & [data-slot="combobox-input"] {
+    & :is([data-slot="combobox-input"], [data-slot="combobox-chips"]) {
       padding-inline-end: calc(var(--ui-spacing) * 8);
+    }
+
+    & [data-slot="combobox-chips"] [data-slot="combobox-input"] {
+      padding-inline-end: calc(var(--ui-spacing) * 1.5);
     }
 
     & [data-slot="combobox-trigger"] {
@@ -461,6 +469,113 @@
     display: block;
     font-size: calc(var(--ui-font-size) - 0.0625rem);
     font-weight: 500;
+  }
+
+  [data-slot="combobox-chips"] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: calc(var(--ui-spacing) * 1);
+    width: 100%;
+    min-width: 0;
+    min-height: calc(var(--ui-spacing) * 8);
+    padding: calc(var(--ui-spacing) * 1);
+    border: 1px solid var(--ui-input);
+    border-radius: var(--ui-radius);
+    background: var(--ui-background);
+    color: var(--ui-foreground);
+    font-size: var(--ui-font-size);
+    cursor: text;
+
+    &:has(:focus-visible) {
+      border-color: var(--ui-ring-border);
+      outline: 4px solid var(--ui-ring);
+    }
+
+    &:has([data-slot="combobox-input"][data-invalid]) {
+      border-color: var(--ui-destructive);
+    }
+
+    &[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    & [data-slot="combobox-input"] {
+      flex: 1;
+      width: auto;
+      min-width: 4rem;
+      height: calc(var(--ui-spacing) * 5.5);
+      padding-inline: calc(var(--ui-spacing) * 1.5);
+      border: 0;
+      background: transparent;
+      outline: none;
+
+      &[data-disabled] {
+        opacity: 1;
+      }
+    }
+  }
+
+  [data-slot="combobox-chip"] {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--ui-spacing) * 1);
+    height: calc(var(--ui-spacing) * 5.5);
+    padding-inline: calc(var(--ui-spacing) * 1.5);
+    border: 1px solid var(--ui-input);
+    border-radius: calc(var(--ui-radius) / 2);
+    background: var(--ui-muted);
+    font-size: calc(var(--ui-font-size) - 0.0625rem);
+    line-height: 1;
+    white-space: nowrap;
+    cursor: default;
+
+    &:has([data-slot="combobox-chip-remove"]:not([data-disabled])) {
+      padding-inline-end: 2px;
+    }
+
+    &:focus-visible {
+      border-color: var(--ui-foreground);
+      outline: none;
+    }
+  }
+
+  [data-slot="combobox-chip-remove"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--ui-radius) / 2);
+    background: transparent;
+    color: var(--ui-muted-foreground);
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+
+    & > svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+
+    &:hover {
+      color: var(--ui-foreground);
+    }
+
+    &[data-disabled] {
+      display: none;
+    }
+  }
+
+  [data-slot="combobox-chips-overflow"] {
+    padding-inline: calc(var(--ui-spacing) * 1);
+    color: var(--ui-muted-foreground);
+    font-size: calc(var(--ui-font-size) - 0.0625rem);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   :is([data-slot="textarea"], [data-slot="trigger-menu-input"]) {
@@ -3349,6 +3464,7 @@
         [data-slot="calendar-next"],
         [data-slot="password-input-toggle"],
         [data-slot="file-input-item-remove"],
+        [data-slot="combobox-chip-remove"],
         [data-slot="token-input-token-remove"],
         [data-slot="toast-close"],
         [data-slot="slider-thumb"],
@@ -3391,6 +3507,7 @@
       [data-slot="calendar-next"],
       [data-slot="password-input-toggle"],
       [data-slot="file-input-item-remove"],
+      [data-slot="combobox-chip-remove"],
       [data-slot="token-input-token-remove"],
       [data-slot="toast-close"],
       [data-slot="slider-thumb"],
