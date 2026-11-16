@@ -219,12 +219,16 @@ test("a turned popup lines up with its anchor as it would unturned", async ({
       anchor("position: fixed; left: 300px; top: 300px") +
         `<div id="probe-popup" popover="manual" style="width: 200px; height: 120px; padding: 0; border: 0; margin: 0; ${turn}"></div>`
     )
-    const { left, top } = await page
-      .locator("#probe-popup")
-      .evaluate((el) => ({ left: el.style.left, top: el.style.top }))
+    const { left, top } = await page.locator("#probe-popup").evaluate((el) => {
+      const style = getComputedStyle(el)
+      return {
+        left: parseFloat(style.left) + parseFloat(style.marginLeft),
+        top: parseFloat(style.top) + parseFloat(style.marginTop),
+      }
+    })
     // Firefox places it a few thousandths of a pixel off.
-    expect(parseFloat(left)).toBeCloseTo(300, 1)
-    expect(parseFloat(top)).toBeCloseTo(334, 1)
+    expect(left).toBeCloseTo(300, 1)
+    expect(top).toBeCloseTo(334, 1)
     await page.evaluate(() => {
       ;(window as unknown as { stopProbe: () => void }).stopProbe()
       document.getElementById("probe-stage")!.remove()
