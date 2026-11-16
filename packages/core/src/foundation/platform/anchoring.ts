@@ -34,6 +34,7 @@ const fillsLayoutViewport = (viewport: {
 // doesn't animate a popup moving between anchors.
 function anchorable(
   anchor: HTMLElement,
+  shown: { width: number; height: number },
   el: HTMLElement,
   style: CSSStyleDeclaration,
   viewport: Parameters<typeof fillsLayoutViewport>[0]
@@ -41,7 +42,7 @@ function anchorable(
   if (
     !supportsAnchoring() ||
     anchor.getRootNode() !== el.getRootNode() ||
-    !anchor.getClientRects().length ||
+    !(shown.width || shown.height) ||
     !fillsLayoutViewport(viewport)
   ) {
     return false

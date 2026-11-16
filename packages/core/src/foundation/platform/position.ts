@@ -503,7 +503,7 @@ function position(
     }
     if (!decided) {
       decided = true
-      if (node && anchorable(node, el, style, viewport)) {
+      if (node && shown && anchorable(node, shown, el, style, viewport)) {
         anchoring = { anchor: node, name: nameAnchor(node) }
       } else {
         // A popup the browser placed last time keeps its anchor once closed.
